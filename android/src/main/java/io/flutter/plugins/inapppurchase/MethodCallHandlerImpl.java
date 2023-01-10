@@ -247,7 +247,7 @@ class MethodCallHandlerImpl
     }
 
     BillingFlowParams.Builder paramsBuilder =
-        BillingFlowParams.newBuilder().setSkuDetails(skuDetails);
+            BillingFlowParams.newBuilder().setSkuDetails(skuDetails);
     if (accountId != null && !accountId.isEmpty()) {
       paramsBuilder.setObfuscatedAccountId(accountId);
     }
@@ -256,16 +256,22 @@ class MethodCallHandlerImpl
     }
     BillingFlowParams.SubscriptionUpdateParams.Builder subscriptionUpdateParamsBuilder =
             BillingFlowParams.SubscriptionUpdateParams.newBuilder();
+
     if (oldSku != null && !oldSku.isEmpty() && purchaseToken != null) {
-      subscriptionUpdateParamsBuilder.setOldPurchaseToken(purchaseToken);
+      subscriptionUpdateParamsBuilder.setOldSkuPurchaseToken(purchaseToken);
       // The proration mode value has to match one of the following declared in
       // https://developer.android.com/reference/com/android/billingclient/api/BillingFlowParams.ProrationMode
-      subscriptionUpdateParamsBuilder.setReplaceProrationMode(prorationMode);
+      subscriptionUpdateParamsBuilder.setReplaceSkusProrationMode(prorationMode);
+
       paramsBuilder.setSubscriptionUpdateParams(subscriptionUpdateParamsBuilder.build());
+//      paramsBuilder.setOldSku(oldSku, purchaseToken);
     }
+    // The proration mode value has to match one of the following declared in
+    // https://developer.android.com/reference/com/android/billingclient/api/BillingFlowParams.ProrationMode
+//    paramsBuilder.setReplaceSkusProrationMode(prorationMode);
     result.success(
-        Translator.fromBillingResult(
-            billingClient.launchBillingFlow(activity, paramsBuilder.build())));
+            Translator.fromBillingResult(
+                    billingClient.launchBillingFlow(activity, paramsBuilder.build())));
   }
 
   private void consumeAsync(String purchaseToken, final MethodChannel.Result result) {
