@@ -107,6 +107,7 @@ class MethodCallHandlerImpl
 
   @Override
   public void onMethodCall(MethodCall call, MethodChannel.Result result) {
+    Log.i(TAG,"onMethodCall===" + call.method);
     switch (call.method) {
       case InAppPurchasePlugin.MethodNames.IS_READY:
         isReady(result);
