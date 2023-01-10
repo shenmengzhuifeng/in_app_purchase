@@ -78,7 +78,7 @@ pubspec.lock
 
 
 #auto generator class
-*.g.dart
+#*.g.dart
 
 #lock file
 *.lock
