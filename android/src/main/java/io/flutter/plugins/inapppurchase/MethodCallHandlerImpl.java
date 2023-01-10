@@ -6,6 +6,7 @@ package io.flutter.plugins.inapppurchase;
 
 import static io.flutter.plugins.inapppurchase.Translator.fromPurchaseHistoryRecordList;
 import static io.flutter.plugins.inapppurchase.Translator.fromPurchasesList;
+import static io.flutter.plugins.inapppurchase.Translator.fromPurchasesResult;
 import static io.flutter.plugins.inapppurchase.Translator.fromSkuDetailsList;
 
 import android.app.Activity;
@@ -295,25 +296,7 @@ class MethodCallHandlerImpl
 
     // Like in our connect call, consider the billing client responding a "success" here regardless
     // of status code.
-    QueryPurchasesParams.Builder paramsBuilder = QueryPurchasesParams.newBuilder();
-    paramsBuilder.setProductType(skuType);
-    if (billingClient != null) {
-      billingClient.queryPurchasesAsync(
-              paramsBuilder.build(),
-              new PurchasesResponseListener() {
-                @Override
-                public void onQueryPurchasesResponse(
-                        BillingResult billingResult, List<Purchase> purchasesList) {
-                  final Map<String, Object> serialized = new HashMap<>();
-                  // The response code is no longer passed, as part of billing 4.0, so we pass OK here
-                  // as success is implied by calling this callback.
-                  serialized.put("responseCode", BillingClient.BillingResponseCode.OK);
-                  serialized.put("billingResult", Translator.fromBillingResult(billingResult));
-                  serialized.put("purchasesList", fromPurchasesList(purchasesList));
-                  result.success(serialized);
-                }
-              });
-    }
+    result.success(fromPurchasesResult(billingClient.queryPurchases(skuType)));
   }
 
   private void queryPurchaseHistoryAsync(String skuType, final MethodChannel.Result result) {
