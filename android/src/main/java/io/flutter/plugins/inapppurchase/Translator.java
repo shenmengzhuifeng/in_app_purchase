@@ -104,13 +104,13 @@ import java.util.List;
     return serialized;
   }
 
-  static HashMap<String, Object> fromPurchasesResult(Purchase.PurchasesResult purchasesResult) {
-    HashMap<String, Object> info = new HashMap<>();
-    info.put("responseCode", purchasesResult.getResponseCode());
-    info.put("billingResult", fromBillingResult(purchasesResult.getBillingResult()));
-    info.put("purchasesList", fromPurchasesList(purchasesResult.getPurchasesList()));
-    return info;
-  }
+//  static HashMap<String, Object> fromPurchasesResult(Purchase.PurchasesResult purchasesResult) {
+//    HashMap<String, Object> info = new HashMap<>();
+//    info.put("responseCode", purchasesResult.getResponseCode());
+//    info.put("billingResult", fromBillingResult(purchasesResult.getBillingResult()));
+//    info.put("purchasesList", fromPurchasesList(purchasesResult.getPurchasesList()));
+//    return info;
+//  }
 
   static HashMap<String, Object> fromBillingResult(BillingResult billingResult) {
     HashMap<String, Object> info = new HashMap<>();
